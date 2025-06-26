@@ -1,0 +1,172 @@
+
+import java.util.*;
+
+abstract class User {
+    String name, id;
+    public User(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+}
+
+class Customer extends User {
+    double balance;
+    static final double MAX_DEPOSIT = 100000.0;
+    static final double INTEREST_RATE = 0.03; // 3% monthly
+
+    public Customer(String id, String name, double balance) {
+        super(id, name);
+        this.balance = balance;
+    }
+
+    void deposit(double amount) {
+        if (amount <= MAX_DEPOSIT) {
+            balance += amount;
+            System.out.println("Deposited: " + amount);
+        } else {
+            System.out.println("Deposit exceeds maximum allowed limit.");
+        }
+    }
+
+    void withdraw(double amount) {
+        if (amount <= balance) {
+            balance -= amount;
+            System.out.println("Withdrawn: " + amount);
+        } else {
+            System.out.println("Insufficient balance.");
+        }
+    }
+
+    void addMonthlyInterest() {
+        double interest = balance * INTEREST_RATE;
+        balance += interest;
+        System.out.println("Monthly interest added: " + interest);
+    }
+
+    void display() {
+        System.out.println("Customer ID: " + id + ", Name: " + name + ", Balance: " + balance);
+    }
+}
+
+class Employee extends User {
+    String position;
+    public Employee(String id, String name, String position) {
+        super(id, name);
+        this.position = position;
+    }
+
+    void display() {
+        System.out.println("Employee ID: " + id + ", Name: " + name + ", Position: " + position);
+    }
+}
+
+class Admin {
+    List<Customer> customers;
+    List<Employee> employees;
+
+    public Admin(List<Customer> customers, List<Employee> employees) {
+        this.customers = customers;
+        this.employees = employees;
+    }
+
+    void viewCustomers() {
+        System.out.println("--- Customer List ---");
+        for (Customer c : customers) {
+            c.display();
+        }
+    }
+
+    void viewEmployees() {
+        System.out.println("--- Employee List ---");
+        for (Employee e : employees) {
+            e.display();
+        }
+    }
+}
+
+public class BankManagementSystem {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        List<Customer> customerList = new ArrayList<>();
+        List<Employee> employeeList = new ArrayList<>();
+
+        // Sample data
+        customerList.add(new Customer("C001", "Ravi", 10000));
+        employeeList.add(new Employee("E101", "Anita", "Manager"));
+
+        Admin admin = new Admin(customerList, employeeList);
+
+        while (true) {
+            System.out.println("\nLogin as: 1. Customer 2. Employee 3. Admin 4. Exit");
+            int choice = sc.nextInt();
+            sc.nextLine(); // consume newline
+
+            if (choice == 1) {
+                System.out.print("Enter Customer ID: ");
+                String cid = sc.nextLine();
+                Customer cust = null;
+                for (Customer c : customerList) {
+                    if (c.id.equals(cid)) {
+                        cust = c;
+                        break;
+                    }
+                }
+                if (cust != null) {
+                    boolean done = false;
+                    while (!done) {
+                        System.out.println("1. Deposit 2. Withdraw 3. Add Interest 4. View Balance 5. Logout");
+                        int action = sc.nextInt();
+                        switch (action) {
+                            case 1:
+                                System.out.print("Enter amount to deposit: ");
+                                cust.deposit(sc.nextDouble());
+                                break;
+                            case 2:
+                                System.out.print("Enter amount to withdraw: ");
+                                cust.withdraw(sc.nextDouble());
+                                break;
+                            case 3:
+                                cust.addMonthlyInterest();
+                                break;
+                            case 4:
+                                cust.display();
+                                break;
+                            case 5:
+                                done = true;
+                                break;
+                            default:
+                                System.out.println("Invalid choice.");
+                        }
+                    }
+                } else {
+                    System.out.println("Customer not found.");
+                }
+            } else if (choice == 2) {
+                System.out.print("Enter Employee ID: ");
+                String eid = sc.nextLine();
+                Employee emp = null;
+                for (Employee e : employeeList) {
+                    if (e.id.equals(eid)) {
+                        emp = e;
+                        break;
+                    }
+                }
+                if (emp != null) {
+                    emp.display();
+                } else {
+                    System.out.println("Employee not found.");
+                }
+            } else if (choice == 3) {
+                System.out.println("Admin Panel:");
+                admin.viewCustomers();
+                admin.viewEmployees();
+            } else if (choice == 4) {
+                System.out.println("Exiting system. Goodbye!");
+                break;
+            } else {
+                System.out.println("Invalid option. Try again.");
+            }
+        }
+        sc.close();
+    }
+}
