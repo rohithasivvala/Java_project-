@@ -1,0 +1,35 @@
+Login as: 1. Customer 2. Employee 3. Admin 4. Exit
+> 1
+Enter Customer ID: 
+> C001
+1. Deposit 2. Withdraw 3. Add Interest 4. View Balance 5. Logout
+> 1
+Enter amount to deposit: 
+> 5000
+Deposited: 5000.0
+1. Deposit 2. Withdraw 3. Add Interest 4. View Balance 5. Logout
+> 3
+Monthly interest added: 450.0
+1. Deposit 2. Withdraw 3. Add Interest 4. View Balance 5. Logout
+> 4
+Customer ID: C001, Name: Ravi, Balance: 15450.0
+1. Deposit 2. Withdraw 3. Add Interest 4. View Balance 5. Logout
+> 5
+
+Login as: 1. Customer 2. Employee 3. Admin 4. Exit
+> 2
+Enter Employee ID: 
+> E101
+Employee ID: E101, Name: Anita, Position: Manager
+
+Login as: 1. Customer 2. Employee 3. Admin 4. Exit
+> 3
+Admin Panel:
+--- Customer List ---
+Customer ID: C001, Name: Ravi, Balance: 15450.0
+--- Employee List ---
+Employee ID: E101, Name: Anita, Position: Manager
+
+Login as: 1. Customer 2. Employee 3. Admin 4. Exit
+> 4
+Exiting system. Goodbye!
